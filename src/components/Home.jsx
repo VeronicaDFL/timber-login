@@ -4,7 +4,7 @@ import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
 
 export default function Home () {
-    const [isMember, setIsMember] = useState (true);
+    const [isMember, setIsMember] = useState (false);
 
     return (
         <>

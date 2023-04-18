@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col"
 import SignupForm from "./SignupForm.jsx"
 
 
-export default function SignupForm () {
+export default function Signup () {
 
     return(
         <Container>
