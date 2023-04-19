@@ -1,26 +1,46 @@
 import {useState} from "react"
+import { initializeApp} from "firebase/app"
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth"
 import  Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 
+const firebaseConfig = {
+    apiKey: "AIzaSyAWQxFo7-SiGnLxrjHygwKsYBDtyetrZ74",
+    authDomain: "timber-login-vdf.firebaseapp.com",
+    projectId: "timber-login-vdf",
+    storageBucket: "timber-login-vdf.appspot.com",
+    messagingSenderId: "54948014339",
+    appId: "1:54948014339:web:8b72f723ff895feab4a136",
+    measurementId: "G-5Y5GTZJQQ4"
+    
+};
+const app= initializeApp(firebaseConfig);
+const auth =getAuth(app);
+
 export default function LoginForm () {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [user,setUser] =useState();
 
-    const handleForm = (e) => {
-        const newValue = e.target.value.trim();
-        console.log(e.target, newValue)
+    const handleLogin =  async (e) => {
+        e.preventDefault()
+        const response = await signInWithEmailAndPassword(auth,email,password)
+        .catch(err => alert(err));
+        setUser(response.user);
+        
     }
-
-
+    if (user)
+    return <h2>Welcome User! {user.uid}</h2>
     return(
         <>
-        <Form>
+
+        <Form onSubmit = {handleLogin}>
             <Form.Group className= "mb-3">
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
                 type= "email"
                 placeholder= "Enter Email"
-                onChange = {handleForm}/>
+                value = {email} onChange = {e => setEmail(e.target.value)}/>
                 <Form.Text>We'll never share your email with anyone else.</Form.Text>
                 </Form.Group>
 
@@ -29,7 +49,7 @@ export default function LoginForm () {
                     <Form.Control
                     type= "password"
                     placeholder= "Enter Password"
-                    onChange = {handleForm}/>
+                    value = {password} onChange = {e => setPassword(e.target.value)}/>
             </Form.Group>
 
             <Form.Group className= "mb-3">
